@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Code In The Dark</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="index.css" />
     <script src="libs/aframe-master.min.js"></script>
 </head>
@@ -34,17 +37,18 @@
             </a-asset-item>
 
         </a-assets>
-        <!--a-entity camera="active: true" position="0 1.6 4.8"></a-entity-->
-        <a-entity camera="active: true;" look-controls wasd-controls position="0 3 3.5" rotation="40 0 0"></a-entity>
-
+        <!-- camera="spectator: true;""  -->
+        <a-entity id="rig" position="0 4 3" rotation="0 0 0">
+            <a-entity camera="active: true;" look-controls wasd-controls></a-entity>
+        </a-entity>
+        
         <a-sky id="image-360" radius="10" src="#environment"
             animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
             animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade">
         </a-sky>
-        <a-light color="#BBB" type="ambient"></a-light>
+        <a-light color="#BBB" type="ambient" light="color: #ffffff; decay: 0; penumbra: 1; shadowBias: 0.5" visible="" position=""></a-light>
         <!--a-light color="#3360f9" intensity="10" castShadow="true" angle="45" groundColor="#313131" type="directional" position="1.8 2.5 2"></a-light-->
-        <a-light id="directionalLight" color="#3360f9" intensity="10" castshadow="true" angle="45" groundcolor="#313131"
-            type="directional" position="0 1 1.9"></a-light>
+        <a-light id="directionalLight" color="#3360f9" intensity="10" castshadow="true" angle="45" groundcolor="#313131" type="directional" position="0 3.5 0" light="color: #ffffff; intensity: 6; angle: 3.43; type: point" visible=""></a-light>
     </a-scene>
     <script src="index.mjs" type="module"></script>
 </body>

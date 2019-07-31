@@ -5,18 +5,7 @@ import sceneComponent from '../components/scene/Scene.js';
 export default {
 
     start() {
-        if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            // When ready, auto-scroll 1px to hide URL bar
-            window.addEventListener("load", function () {
-                // Set a timeout...
-                setTimeout(function () {
-                    // Hide the address bar!
-                    window.scrollTo(0, 1);
-                }, 0);
-            });
-        }
         document.addEventListener("StartVote", this.startVote.bind(this));
-        // document.addEventListener("StopVote", this.stopVote.bind(this))
     },
 
     getSceneComponent() {
@@ -37,5 +26,36 @@ export default {
             .forEach(el => el.parentElement.removeChild(el));
         scene.appendChild(frag);
         scene.flushToDOM(true);
+    },
+
+    fullScreen() {
+        /*
+        if (document.documentElement.requestFullscreen) {
+            const btn = document.createElement('button');
+            btn.classList.add('invisible');
+            btn.addEventListener('click', this._fullScreen());
+            document.body.appendChild(btn);
+            btn.click();
+            btn.parentElement.removeChild(btn);
+        } */
+        return false;
+    },
+
+    _fullScreen() {
+        console.log('requestFullscreen');
+        setTimeout(() => {
+            if (!document.fullscreenElement) {
+                const elem = document.documentElement;
+                const requestFullscreen = elem.requestFullscreen || elem.mozRequestFullscreen
+                || elem.msRequestFullscreen || elem.webkitRequestFullscreen;
+    
+                requestFullscreen().then({}).catch(err => {
+                    console.log(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+    
+            }
+    
+        }, 3000);
+    
     }
 }
