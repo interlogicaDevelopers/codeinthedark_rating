@@ -1,6 +1,14 @@
+// "http://admin.codeinthedark.interlogica.it:3000"
 export default {
-    SCENE_POSITIONS: {
-        FIGHTERS: {
+    host: 'http://localhost:3000',
+    auth: {
+        domain: 'codeinthedarkve.eu.auth0.com',
+        clientID: '6jXh1PMXdoj6GQdFYH2EjAMoAyCxPxHf',
+        responseType: 'token id_token',
+        scope: 'openid',
+    },
+    scene_positions: {
+        fighters: {
             '8': [
                 {
                     position: '-7 2 -2',

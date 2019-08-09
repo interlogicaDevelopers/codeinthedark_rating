@@ -15,7 +15,7 @@ export default {
     startVote() {
         const frag = document.createDocumentFragment();
         const figthers = fightService.getFigthers()
-        const positions = CONST.SCENE_POSITIONS.FIGHTERS['' + figthers.length];
+        const positions = CONST.scene_positions.fighters['' + figthers.length];
         figthers.forEach((el, idx) => {
             el.index = idx;
             frag.appendChild(sceneComponent.createFighter(el, idx, positions[idx]));
@@ -29,7 +29,6 @@ export default {
     },
 
     fullScreen() {
-        /*
         if (document.documentElement.requestFullscreen) {
             const btn = document.createElement('button');
             btn.classList.add('invisible');
@@ -37,7 +36,7 @@ export default {
             document.body.appendChild(btn);
             btn.click();
             btn.parentElement.removeChild(btn);
-        } */
+        }
         return false;
     },
 
