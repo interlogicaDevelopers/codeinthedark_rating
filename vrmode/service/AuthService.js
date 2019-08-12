@@ -20,10 +20,10 @@ export default {
                 console.log('Access Token must exist to fetch profile');
             }
 
-            webAuth.client.userInfo(accessToken, (err, profile) => {
+            this.webAuth.client.userInfo(accessToken, (err, profile) => {
                 if (profile) {
                     this.userProfile = profile;
-                    console.log("user profile", this.profile);
+                    console.log("user profile", this.userProfile);
                 }
             });
         }
@@ -31,33 +31,31 @@ export default {
 
     auth() {
         return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(true)
-            }, 2000)
+            const auth = CONST.auth;
+            this.webAuth = new auth0.WebAuth({
+                ...auth,
+                redirectUri: window.location.href,
+    
+            });
+    
+            this.webAuth.parseHash((err, authResult) => {
+                if (authResult && authResult.accessToken && authResult.idToken) {
+                    window.location.hash = '';
+                    this.setSession(authResult);
+                    this.getProfile();
+                    console.log("Autorization done", );
+                    resolve();
+    
+                } else if (err) {
+                    console.log(err);
+                    console.log(err.errorDescription);
+                    window.location.hash = '';
+                    reject(err);
+                } else {
+                    return this.webAuth.authorize();
+                }
+            });
         })
-        /*
-        const auth = CONST.auth;
-        this.webAuth = new auth0.WebAuth({
-            ...auth,
-            redirectUri: window.location.href,
-
-        });
-
-        webAuth.parseHash(function (err, authResult) {
-            if (authResult && authResult.accessToken && authResult.idToken) {
-                window.location.hash = '';
-                setSession(authResult);
-                getProfile();
-                document.dispatchEvent(new CustomEvent("AuthorizationDone"));
-
-            } else if (err) {
-                console.log(err);
-                console.log(err.errorDescription);
-                window.location.hash = '';
-            } else {
-                webAuth.authorize();
-            }
-        });
-        */
+        
     }
 }
