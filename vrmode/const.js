@@ -8,7 +8,7 @@ export default {
         scope: 'openid',
     },
     scene_positions: {
-        fighters: {
+        players: {
             '8': [
                 {
                     position: '-7 2 -2',
@@ -42,8 +42,18 @@ export default {
                     position: '8 2 -4',
                     rotation: '0 -80 0'
                 }
+            ],
+            '2': [
+                {
+                    position: '-2 2 -8',
+                    rotation: '0 0 0'
+                },
+                {
+                    position: '.5 2 -8',
+                    rotation: '0 0 0'
+                },
             ]
         }
     },
-    APP_FALLBACK: 'https://localhost:8001/'
+    APP_FALLBACK: 'http://localhost:8001/'
 }

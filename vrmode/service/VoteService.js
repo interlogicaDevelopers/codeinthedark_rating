@@ -1,12 +1,20 @@
-import fightService from './FightService.js'
+import CONST from '../const.js';
+
 import voteComponent from '../components/vote/Vote.js'
 
 export default {
 
     data: [],
+    state: {
+        currentRound: undefined,
+        isFetching: false,
+        votes: {}
+    },
 
     start() {
         document.addEventListener("ShowVotePreview", this.showVotePreview.bind(this));
+        document.addEventListener("SocketMessage", this.onSocketMessage.bind(this));
+        document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
     },
 
     vote(id) {
@@ -17,28 +25,66 @@ export default {
 
     showVotePreview(evt) {
         const id = evt.detail.id;
-        const detail = fightService.get(id);
-        voteComponent.show(detail);
+        const detail = this.getPlayer(id);
+        if (detail) {
+            voteComponent.show(detail);
+        }
     },
 
-    simulateStartVote(n) {
-        setTimeout(() => {
-            document.dispatchEvent(new CustomEvent("StartVote"));
-            // this.simulateStopVote();
-        }, (4000))
+    onSocketMessage(evt) {
+        debugger;
+        const {type, data} = evt.detail.msg;
 
+        if (type === 'VOTE_COUNTDOWN' && (!this.state.currentRound && !this.state.isFetching)) {
+            this.fetchRound(data.round)
+                .then(round => {
+                    this.state.currentRound = round;
+                    this.votePoll()
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
     },
 
-    simulateStopVote() {
-        setTimeout(() => {
-            document.dispatchEvent(new CustomEvent("ShowWaitRound"));
-            // setTimeout(this.initSimulation.bind(this), 5000);
-        }, 5000)
+
+    fetchRound(roundId) {
+        this.state.isFetching = true;
+        return fetch(`${CONST.host}/round/${roundId}`)
+            .then(response => response.json())
+            .then(round => {
+                this.state.isFetching = false;
+                return round;
+            })
     },
 
-    initSimulation() {
-        this.simulateStartVote(5000);
+    votePoll() {
+        debugger;
+        if (!this.state.votes[this.state.currentRound._id]) {
+            document.dispatchEvent(
+                new CustomEvent(
+                    "StartVote",
+                    {detail:{round: this.state.currentRound}}
+                )
+            );
+        } else {
+            document.dispatchEvent(
+                new CustomEvent(
+                    "ShowAlreadyVoted", 
+                    {detail:{round: this.state.currentRound}}
+                )
+            );
+        }
+    },
+
+    onShowVoteConfirm(evt) {
+        const {data} = evt.detail;
+        this.state.votes[this.state.currentRound._id] = data._id;
+    },
+
+    getPalyer(id) {
+        if (!this.state.currentRound) return null;
+        return this.state.currentRound.player.find(elm => elm._id === id);
     }
-
 
 }
