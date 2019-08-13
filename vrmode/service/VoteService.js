@@ -32,7 +32,6 @@ export default {
     },
 
     onSocketMessage(evt) {
-        debugger;
         const {type, data} = evt.detail.msg;
 
         if (type === 'VOTE_COUNTDOWN' && (!this.state.currentRound && !this.state.isFetching)) {
@@ -59,7 +58,6 @@ export default {
     },
 
     votePoll() {
-        debugger;
         if (!this.state.votes[this.state.currentRound._id]) {
             document.dispatchEvent(
                 new CustomEvent(

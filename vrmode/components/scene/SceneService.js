@@ -71,7 +71,6 @@ export default {
     },
 
     onStartVote(evt) {
-        debugger;
         const round = evt.detail.round;
         this.state.currentState = this.STATUS.VOTING;
         const frag = document.createDocumentFragment();
@@ -123,7 +122,6 @@ export default {
     },
 
     onShowAlreadyVoted(evt) {
-        debugger;
         const scene = document.querySelector('a-scene');
         this.cleanScene(scene);
         this.renderTemplate(scene, templateAlreadyVoted());
