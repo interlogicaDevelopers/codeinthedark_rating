@@ -115,7 +115,7 @@ export default {
         if (this.state.currentState !== type) {
             this.state.currentState = type;
             const scene = document.querySelector('a-scene');
-            fgClean && this.cleanScene(scene);
+            this.cleanScene(scene);
             this.renderTemplate(scene, tmpl);
             scene.flushToDOM(true);
         }
