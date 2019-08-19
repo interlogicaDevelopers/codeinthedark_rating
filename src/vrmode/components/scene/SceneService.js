@@ -8,6 +8,7 @@ import templateVoteCountdown from './VoteCountdown.html.js'
 import templateRoundEnd from './RoundEnd.html.js'
 import templateReceivingResults from './ReceivingResults.html.js'
 import templateShowingResults from './ShowingResults.html.js'
+import templateRoundLayout from './RoundLayout.html.js'
  
 export default {
 
@@ -27,6 +28,7 @@ export default {
 
     start() {
         document.addEventListener("StartVote", this.onStartVote.bind(this));
+        document.addEventListener("StopVote", this.onStopVote.bind(this));
         document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
         /*document.addEventListener("ShowWaitRound", this.onShowWaitRound.bind(this))
         document.addEventListener("ShowRoundCountdown", this.onShowRoundCountdown.bind(this))
@@ -42,7 +44,7 @@ export default {
         console.log('SceneService.onSocketMessage', type, data);
         switch (type) {
             case 'VOTE_COUNTDOWN':
-                this.addStateTemplate(this.STATUS.VOTE_COUNTDOWN, templateVoteCountdown(data));
+                this.onVoteCountdown(data);
                 break;
 
             case 'ROUND_END_COUNTDOWN':
@@ -58,8 +60,8 @@ export default {
                 break;
 
             default:
-                if (this.state.currentState !== 'WAIT_ROUND') {
-                    this.state.currentState !== 'WAIT_ROUND';
+                if(this.state.currentState !== type) {
+                    this.state.currentState = type;
                     this.showStateTemplate(this.STATUS.WAIT_ROUND, templateWaitingRound());
                 }
         }
@@ -82,9 +84,40 @@ export default {
         })
         const scene = document.querySelector('a-scene');
         scene.querySelector('#directionalLight').setAttribute('visible', 'true');
-        this.cleanTextTemplate(scene);
+        this.cleanEntityTemplate(scene, 'waiting');
+        this.cleanEntityTemplate(scene, 'voted');
         scene.appendChild(frag);
+        scene.insertAdjacentHTML('beforeEnd', templateRoundLayout(round));
         scene.flushToDOM(true);
+
+        // temporary test
+        /*
+        setTimeout(() => {
+            document.dispatchEvent(new CustomEvent("StopVote"));
+        }, 5000)
+        */
+    },
+
+    onStopVote(evt) {
+        const scene = document.querySelector('a-scene');
+        this.cleanScene(scene, 'voting');
+        //TODO does SHOWING_RESULTS arrive after this?
+    },
+
+    onVoteCountdown(data) {
+        if (this.state.currentState !== this.STATUS.VOTE_COUNTDOWN) {
+            this.state.currentState = this.STATUS.VOTE_COUNTDOWN;
+            const scene = document.querySelector('a-scene');
+            scene.insertAdjacentHTML('beforeEnd', templateVoteCountdown(data));
+            scene.flushToDOM(true);
+        } else if(this.state.currentState === this.STATUS.VOTE_COUNTDOWN) {
+            const scene = document.querySelector('a-scene');
+            const n = scene.querySelector('#countdown');
+            // temporary avoid errors
+            if (!n) return;
+            n.setAttribute('value', data.missing);
+            scene.flushToDOM(true);
+        }
     },
 
     /////////////////////
@@ -92,40 +125,21 @@ export default {
     onShowVoteConfirm(evt) {
         this.state.currentState = this.STATUS.ALREADY_VOTED;
         const scene = document.querySelector('a-scene');
+        this.cleanScene(scene, 'voting');
         this.renderTemplate(scene, templateVoteConfirm(evt.detail));
         scene.flushToDOM(true);
-        setTimeout(this.dismissVoteConfirm.bind(this), 5000)
-    },
-
-    dismissVoteConfirm() {
-        const el = document.querySelector('#voteConfirm');
-        el.parentElement.removeChild(el);
-    },
-
-    addStateTemplate(type, tmpl) {
-        if (this.state.currentState !== type) {
-            this.state.currentState = type;
-            const scene = document.querySelector('a-scene');
-            scene.insertAdjacentHTML('beforeEnd', tmpl);
-            scene.flushToDOM(true);
-        }
-    },
-
-    showStateTemplate(type, tmpl) {
-        if (this.state.currentState !== type) {
-            this.state.currentState = type;
-            const scene = document.querySelector('a-scene');
-            this.cleanScene(scene);
-            this.renderTemplate(scene, tmpl);
-            scene.flushToDOM(true);
-        }
     },
 
     onShowAlreadyVoted(evt) {
-        const scene = document.querySelector('a-scene');
-        this.cleanScene(scene);
-        this.renderTemplate(scene, templateAlreadyVoted());
-        scene.flushToDOM(true);
+        if (this.state.currentState !== this.STATUS.ALREADY_VOTED) {
+            this.state.currentState = this.STATUS.ALREADY_VOTED;
+            const scene = document.querySelector('a-scene');
+            this.cleanEntityTemplate(scene, 'waiting');
+            this.cleanEntityTemplate(scene, 'voted');
+            this.cleanScene(scene, 'voting');
+            this.renderTemplate(scene, templateAlreadyVoted());
+            scene.flushToDOM(true);
+        }
     },
 
     onShowRoundCountdown(evt) {
@@ -134,13 +148,31 @@ export default {
     },
 
     ////// PRIVATE
+
+    dismissVoteConfirm() {
+        const el = document.querySelector('#voteConfirm');
+        el.parentElement.removeChild(el);
+    },
+
+    showStateTemplate(type, tmpl) {
+        if (this.state.currentState !== type) {
+            this.state.currentState = type;
+            const scene = document.querySelector('a-scene');
+            this.cleanEntityTemplate(scene, 'waiting');
+            this.cleanEntityTemplate(scene, 'voting');
+            this.cleanScene(scene, 'voted');
+            this.renderTemplate(scene, tmpl);
+            scene.flushToDOM(true);
+        }
+    },
+
     renderTemplate(scene, tmpl) {
         scene.querySelector('#directionalLight').setAttribute('visible', 'false');
         scene.insertAdjacentHTML('beforeEnd', tmpl);
     },
 
-    cleanScene(scene) {
-        this.cleanTextTemplate(scene);
+    cleanScene(scene, status) {
+        this.cleanEntityTemplate(scene, status);
         scene.querySelectorAll("[vote-marker]")
             .forEach(el => el.parentElement.removeChild(el));
 
@@ -151,9 +183,10 @@ export default {
             .forEach(el => el.parentElement.removeChild(el));
     },
 
-    cleanTextTemplate(scene) {
-        scene.querySelectorAll("[data-status='waiting']")
+    cleanEntityTemplate(scene, status) {
+        scene.querySelectorAll(`[data-status='${status}']`)
             .forEach(el => el.parentElement.removeChild(el));
-    }
+    },
+
 
 }

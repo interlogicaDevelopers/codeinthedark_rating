@@ -33,6 +33,14 @@ export default {
                 const evt = new CustomEvent("ShowVoteConfirm",{detail:{name}});
 		        document.dispatchEvent(evt);
             })
+            .catch ((resp) => {
+                try {
+                    const {err, detail} = resp;
+                    document.dispatchEvent(new CustomEvent(err, detail));
+                } catch (exc) {
+                    console.log("vote error", err);
+                }
+            })
     },
 
     close(evt) {

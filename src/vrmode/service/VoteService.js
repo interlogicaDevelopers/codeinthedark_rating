@@ -1,5 +1,5 @@
 import CONST from '../const.js';
-
+import authService from './AuthService.js'
 import voteComponent from '../components/vote/Vote.js'
 
 export default {
@@ -18,9 +18,28 @@ export default {
     },
 
     vote(id) {
-        console.log("vote", id)
-        // TODO: call fetch and then resolve
-        return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            const voteURL = CONST.host + '/vote/' + this.state.currentRound._id + '/' + id;
+    
+            fetch(voteURL, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        uuid: authService.userProfile.sub
+                    })
+                })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        this.state.votes[this.state.currentRound._id] = +new Date();
+                        resolve(id);
+                    } else {
+                        reject({err: 'ShowAlreadyVoted', detail:{round: this.state.currentRound}});
+                    }
+                });
+        })
     },
 
     showVotePreview(evt) {
@@ -33,7 +52,6 @@ export default {
 
     onSocketMessage(evt) {
         const {type, data} = evt.detail.msg;
-
         if (type === 'VOTE_COUNTDOWN' && (!this.state.currentRound && !this.state.isFetching)) {
             this.fetchRound(data.round)
                 .then(round => {
@@ -43,6 +61,8 @@ export default {
                 .catch(error => {
                     console.error(error);
                 })
+        } else if (type !== 'VOTE_COUNTDOWN' && this.state.currentRound) {
+            delete this.state.currentRound;
         }
     },
 
@@ -80,9 +100,9 @@ export default {
         this.state.votes[this.state.currentRound._id] = data._id;
     },
 
-    getPalyer(id) {
+    getPlayer(id) {
         if (!this.state.currentRound) return null;
-        return this.state.currentRound.player.find(elm => elm._id === id);
+        return this.state.currentRound.players.find(elm => elm._id === id);
     }
 
 }

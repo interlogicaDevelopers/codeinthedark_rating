@@ -1,6 +1,6 @@
 import broserCheckService from './service/BrowserCheckService.js'
 import CONST from './const.js';
-import './components';
+import './components/index.js';
 
 function startup() {
     // try to fix device orientation and fullscreen mode
