@@ -105,18 +105,19 @@ export default {
     },
 
     onVoteCountdown(data) {
-        if (this.state.currentState !== this.STATUS.VOTE_COUNTDOWN) {
+        const scene = document.querySelector('a-scene');
+        if (this.state.currentState !== this.STATUS.VOTE_COUNTDOWN && !scene.querySelector('#countdown')) {
             this.state.currentState = this.STATUS.VOTE_COUNTDOWN;
-            const scene = document.querySelector('a-scene');
             scene.insertAdjacentHTML('beforeEnd', templateVoteCountdown(data));
             scene.flushToDOM(true);
         } else if(this.state.currentState === this.STATUS.VOTE_COUNTDOWN) {
-            const scene = document.querySelector('a-scene');
+            
             const n = scene.querySelector('#countdown');
             // temporary avoid errors
+            return;
             if (!n) return;
             n.setAttribute('value', data.missing);
-            scene.flushToDOM(true);
+            // scene.flushToDOM(true);
         }
     },
 
