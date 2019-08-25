@@ -3,6 +3,12 @@ import CONST from './const.js';
 import './components/index.js';
 
 function startup() {
+    if(CONST.isTest) {
+        localStorage.setItem("expires_at", "1566324641903");
+        localStorage.setItem("id_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1EQTFNREpCUWpCRVF6WTJNRVJGUXpBMU5UTTJORGcxTnpGQlJUWXlRVVU0TlVZM1FrVTROQSJ9");
+        localStorage.setItem("access_token", "rGGpIELIA9WB4CbUMzuGELyZ9sF922yj");
+    }
+
     // try to fix device orientation and fullscreen mode
     if (screen.orientation.lock) {
         screen.orientation.lock('landscape')
@@ -33,7 +39,6 @@ function startup() {
 
                             const tmpl = document.querySelector('#tmpl-scene');
                             document.body.appendChild(document.importNode(tmpl.content, true));
-
                             const p = document.querySelector('.poster');
                             const s = document.querySelector('a-scene');
                             s.classList.remove("hidden");
