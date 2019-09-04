@@ -31,6 +31,10 @@ export default {
 
     auth() {
         return new Promise((resolve, reject) => {
+            if(CONST.isTest) {
+                resolve()
+                return;
+            }
             const auth = CONST.auth;
             this.webAuth = new auth0.WebAuth({
                 ...auth,

@@ -19,11 +19,13 @@ ngApp.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, ROOT_NG, 'index.html'))
 });
 
-const sk = path.resolve(__dirname, 'certs', 'server.key');
-const sc = path.resolve(__dirname, 'certs', 'server.cert');
+
 
 if (USE_HTTPS) {
     const https = require('https');
+
+    const sk = path.resolve(__dirname, '..', 'certs', 'server.key');
+    const sc = path.resolve(__dirname, '..', 'certs', 'server.cert');
 
     https.createServer({
         key: fs.readFileSync(sk),

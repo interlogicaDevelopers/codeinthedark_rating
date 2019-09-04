@@ -4,11 +4,11 @@ export default {
     connect: () => {
         return new Promise((resolve, reject) => {
             const opt = {
-                rememberUpgrade:true,
+                rememberUpgrade: true,
                 transports: ['websocket'],
-                secure:true, 
+                secure: true, 
                 rejectUnauthorized: false
-                    };
+            };
             const socket = io.connect(CONST.host); //, opt);
             
             socket.on('connect', () => {

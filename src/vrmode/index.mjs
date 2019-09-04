@@ -50,15 +50,16 @@ function startup() {
                     })
                     .catch((err) => {
                         console.error("Nothing works...WTF!!", err);
-                        location.href = CONST.APP_FALLBACK;
+                        //location.href = CONST.APP_FALLBACK;
                     })
             })
             .catch((err) => {
                 console.error("Nothing works...WTF!!", err);
-                location.href = CONST.APP_FALLBACK;;
+                // location.href = CONST.APP_FALLBACK;
             })
     } else {
-        location.href = CONST.APP_FALLBACK;
+        // location.href = CONST.APP_FALLBACK;
+        console.log('error');
     }
 }
 

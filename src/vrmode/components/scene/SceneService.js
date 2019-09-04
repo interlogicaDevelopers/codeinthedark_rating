@@ -110,18 +110,12 @@ export default {
             this.state.currentState = this.STATUS.VOTE_COUNTDOWN;
             scene.insertAdjacentHTML('beforeEnd', templateVoteCountdown(data));
             scene.flushToDOM(true);
-        } else if(this.state.currentState === this.STATUS.VOTE_COUNTDOWN) {
-            
+        } else if((this.STATUS.VOTE_COUNTDOWN + ' '+ this.STATUS.VOTING).includes(this.state.currentState)) {
             const n = scene.querySelector('#countdown');
-            // temporary avoid errors
-            return;
             if (!n) return;
             n.setAttribute('value', data.missing);
-            // scene.flushToDOM(true);
         }
     },
-
-    /////////////////////
 
     onShowVoteConfirm(evt) {
         this.state.currentState = this.STATUS.ALREADY_VOTED;

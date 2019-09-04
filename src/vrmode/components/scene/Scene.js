@@ -1,6 +1,3 @@
-// import domUtils from '../../utils/Dom.js';
-// import template from './scene.html.js';
-
 export default {
 
     index: 0,
@@ -25,7 +22,7 @@ export default {
     
         const b = document.createElement('a-image');
         b.setAttribute('color', '#fff');
-        b.setAttribute('src', '/assets/remote/1.jpg'); // TODO
+        b.setAttribute('src', data.preview_url || '/assets/remote/placeholder.jpg');
         b.setAttribute('material', 'color: #fff; transparent: false; vertexColors: face; wireframeLinewidth: -7.23');
         b.setAttribute('height', 1);
         b.setAttribute('width', 1.5);

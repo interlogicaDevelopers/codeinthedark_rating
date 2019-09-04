@@ -1,9 +1,12 @@
 import voteService from './VoteService.js'
 import sceneService from '../components/scene/SceneService.js'
 
+import CONST from '../const.js';
+
 export default {
 
     start() {
+       
         sceneService.start();
         voteService.start()
 
@@ -21,6 +24,14 @@ export default {
                             .catch(err => console.error(err))
                         }
                     }
+                });
+
+        document.getElementById('gotoPrevApp')
+            .addEventListener('click',
+                (evt) => {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    location.href = CONST.APP_FALLBACK;
                 });
     }
 }
