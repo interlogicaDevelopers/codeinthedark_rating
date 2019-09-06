@@ -1,8 +1,8 @@
 // "http://admin.codeinthedark.interlogica.it:3000"
 export default {
-    isTest: true,
+    isTest: false,
     host_device: 'http://192.168.137.1:3000',
-    host: 'https://vote.codeinthedark.interlogica.it',
+    host: 'https://admin.codeinthedark.interlogica.it',
     auth: {
         domain: 'codeinthedarkve.eu.auth0.com',
         clientID: '6jXh1PMXdoj6GQdFYH2EjAMoAyCxPxHf',
