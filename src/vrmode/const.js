@@ -1,8 +1,10 @@
-// "http://admin.codeinthedark.interlogica.it:3000"
 export default {
-    isTest: false,
-    host_device: 'http://192.168.137.1:3000',
+    test: {
+        enabled: false
+
+    },
     host: 'https://admin.codeinthedark.interlogica.it',
+    app_old: 'https://vote-old.codeinthedark.interlogica.it/',
     auth: {
         domain: 'codeinthedarkve.eu.auth0.com',
         clientID: '6jXh1PMXdoj6GQdFYH2EjAMoAyCxPxHf',
@@ -89,6 +91,20 @@ export default {
                     rotation: '0 -15 0'
                 }
             ],
+            '3': [
+                {
+                    position: '-4.5 2 -7',
+                    rotation: '0 30 0'
+                },
+                {
+                    position: '-2 2 -8',
+                    rotation: '0 0 0'
+                },
+                {
+                    position: '.5 2 -8',
+                    rotation: '0 0 0'
+                }
+            ],
             '2': [
                 {
                     position: '-2 2 -8',
@@ -100,6 +116,5 @@ export default {
                 },
             ]
         }
-    },
-    APP_FALLBACK: 'http://localhost:8001/'
+    }    
 }
