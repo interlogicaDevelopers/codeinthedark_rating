@@ -12,26 +12,34 @@ export default {
         localStorage.setItem('expires_at', expiresAt);
     },
 
-    getProfile() {
-        if (!this.userProfile) {
-            const accessToken = localStorage.getItem('access_token');
-
-            if (!accessToken) {
-                console.log('Access Token must exist to fetch profile');
+    setProfile() {
+        return new Promise(() => {
+            if (this.userProfile) resolve(this.userProfile)
+            else {
+                const accessToken = localStorage.getItem('access_token');
+    
+                if (!accessToken) {
+                    reject('Access Token must exist to fetch profile');
+                }
+    
+                this.webAuth.client.userInfo(accessToken, (err, profile) => {
+                    if (profile) {
+                        this.userProfile = profile;
+                        resolve(profile);
+                        console.log("user profile", this.userProfile);
+                    } else {
+                        reject("Missing user profile");
+                    }
+                });
             }
 
-            this.webAuth.client.userInfo(accessToken, (err, profile) => {
-                if (profile) {
-                    this.userProfile = profile;
-                    console.log("user profile", this.userProfile);
-                }
-            });
-        }
+        })
     },
 
     auth() {
         return new Promise((resolve, reject) => {
-            if(CONST.isTest) {
+            if(CONST.test && CONST.test.enabled === true) {
+                this.profile = CONST.test.profile;
                 resolve()
                 return;
             }
@@ -39,16 +47,22 @@ export default {
             this.webAuth = new auth0.WebAuth({
                 ...auth,
                 redirectUri: window.location.href,
-    
+
             });
     
             this.webAuth.parseHash((err, authResult) => {
                 if (authResult && authResult.accessToken && authResult.idToken) {
                     window.location.hash = '';
                     this.setSession(authResult);
-                    this.getProfile();
-                    console.log("Autorization done", );
-                    resolve();
+                    this.setProfile()
+                    .then (() => {
+                        console.log("Autorization done", );
+                        resolve();
+                    })
+                    .catch(() => {
+                        this.webAuth.authorize();
+                    })
+
     
                 } else if (err) {
                     console.log(err);
