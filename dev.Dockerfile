@@ -2,8 +2,6 @@ FROM node:11
 
 WORKDIR /usr/local/citd-rating
 
-COPY ./certs ./certs/
-
 COPY package*.json ./
 RUN npm i
 

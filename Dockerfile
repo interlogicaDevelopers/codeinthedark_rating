@@ -4,7 +4,6 @@ WORKDIR /usr/local/citd-rating
 
 COPY package*.json ./
 RUN npm i
-COPY certs ./certs
 COPY src/server.js .
 COPY src/v1 ./v1
 COPY src/vrmode ./vrmode
