@@ -1,4 +1,5 @@
 import CONST from '../../const.js';
+import broserCheckService from '../../service/BrowserCheckService.js';
 import sceneComponent from './Scene.js';
 
 import templateVoteConfirm from './VoteConfirm.html.js'
@@ -27,6 +28,15 @@ export default {
     },
 
     start() {
+        if(AFRAME.utils.device.isMobile()) {
+            const or = broserCheckService.getOrientation();
+            if (or === broserCheckService.ORIENTATION.PORTRAIT) {
+                const cameraEl = document.querySelector('#rig');
+                cameraEl.setAttribute('rotation', '0 180 0');
+                console.log('fix camera rotation on x axis');
+            }
+        }
+
         document.addEventListener("StartVote", this.onStartVote.bind(this));
         document.addEventListener("StopVote", this.onStopVote.bind(this));
         document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
@@ -41,7 +51,6 @@ export default {
 
     onSocketMessage(evt) {
         const { type, data } = evt.detail.msg;
-        console.log('SceneService.onSocketMessage', type, data);
         switch (type) {
             case 'VOTE_COUNTDOWN':
                 this.onVoteCountdown(data);

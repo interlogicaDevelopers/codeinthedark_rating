@@ -13,7 +13,6 @@ export default {
             
             socket.on('connect', () => {
                 socket.on('message', (msg) => {
-                    console.log(`Socker message`, msg);
                     document.dispatchEvent(new CustomEvent("SocketMessage",{detail:{msg}}));
                 });
                 resolve(true);
