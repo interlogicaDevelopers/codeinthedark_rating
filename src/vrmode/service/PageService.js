@@ -6,7 +6,6 @@ import CONST from '../const.js';
 export default {
 
     start() {
-       
         sceneService.start();
         voteService.start()
 
@@ -31,7 +30,8 @@ export default {
                 (evt) => {
                     evt.preventDefault();
                     evt.stopPropagation();
-                    location.href = CONST.APP_FALLBACK;
+                    location.href = CONST.app_old;
                 });
     }
+
 }
