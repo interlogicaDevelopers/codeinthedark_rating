@@ -13,7 +13,7 @@ export default {
     },
 
     setProfile() {
-        return new Promise(() => {
+        return new Promise((resolve, reject) => {
             if (this.userProfile) resolve(this.userProfile)
             else {
                 const accessToken = localStorage.getItem('access_token');
