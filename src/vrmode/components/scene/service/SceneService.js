@@ -1,15 +1,16 @@
-import CONST from '../../const.js';
-import broserCheckService from '../../service/BrowserCheckService.js';
-import sceneComponent from './Scene.js';
+import CONST from '../../../const.js';
+import broserCheckService from '../../../service/BrowserCheckService.js';
+import sceneComponent from '../Scene.js';
 
-import templateVoteConfirm from './VoteConfirm.html.js'
-import templateWaitingRound from './WaitingRound.html.js'
-import templateAlreadyVoted from './AlreadyVoted.html.js'
-import templateVoteCountdown from './VoteCountdown.html.js'
-import templateRoundEnd from './RoundEnd.html.js'
-import templateReceivingResults from './ReceivingResults.html.js'
-import templateShowingResults from './ShowingResults.html.js'
-import templateRoundLayout from './RoundLayout.html.js'
+import gifService from '../service/GifService.js';
+import templateVoteConfirm from '../template/VoteConfirm.html.js'
+import templateWaitingRound from '../template/WaitingRound.html.js'
+import templateAlreadyVoted from '../template/AlreadyVoted.html.js'
+import templateVoteCountdown from '../template/VoteCountdown.html.js'
+import templateRoundEnd from '../template/RoundEnd.html.js'
+import templateReceivingResults from '../template/ReceivingResults.html.js'
+import templateShowingResults from '../template/ShowingResults.html.js'
+import templateRoundLayout from '../template/RoundLayout.html.js'
  
 export default {
 
@@ -28,23 +29,37 @@ export default {
     },
 
     start() {
-        if(AFRAME.utils.device.isMobile()) {
-            const or = broserCheckService.getOrientation();
-            if (or === broserCheckService.ORIENTATION.PORTRAIT) {
-                const cameraEl = document.querySelector('#rig');
-                cameraEl.setAttribute('rotation', '0 180 0');
-                console.log('fix camera rotation on x axis');
-            }
-        }
+        return new Promise((resolve, reject) => {
 
-        document.addEventListener("StartVote", this.onStartVote.bind(this));
-        document.addEventListener("StopVote", this.onStopVote.bind(this));
-        document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
-        /*document.addEventListener("ShowWaitRound", this.onShowWaitRound.bind(this))
-        document.addEventListener("ShowRoundCountdown", this.onShowRoundCountdown.bind(this))
-        */
-        document.addEventListener("ShowAlreadyVoted", this.onShowAlreadyVoted.bind(this))
-        document.addEventListener("SocketMessage", this.onSocketMessage.bind(this));
+            const tmpl = document.querySelector('#tmpl-scene');
+
+            document.body.appendChild(document.importNode(tmpl.content, true));
+            const s = document.querySelector('a-scene');
+            s.classList.remove("hidden");
+
+            const p = document.querySelector('.poster');
+            p.parentNode.removeChild(p);
+    
+            if(AFRAME.utils.device.isMobile()) {
+                const or = broserCheckService.getOrientation();
+                if (or === broserCheckService.ORIENTATION.PORTRAIT) {
+                    const cameraEl = document.querySelector('#rig');
+                    cameraEl.setAttribute('rotation', '0 180 0');
+                }
+            }
+    
+            document.querySelector('a-scene').addEventListener('loaded', () => {
+                       
+                document.addEventListener("StartVote", this.onStartVote.bind(this));
+                document.addEventListener("StopVote", this.onStopVote.bind(this));
+                document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
+                document.addEventListener("ShowAlreadyVoted", this.onShowAlreadyVoted.bind(this))
+                document.addEventListener("SocketMessage", this.onSocketMessage.bind(this));
+                gifService.initAssets();
+                resolve();
+            })
+        })
+
     },
 
     ////////////// SOCKET LISTENER
@@ -97,14 +112,6 @@ export default {
         this.cleanEntityTemplate(scene, 'voted');
         scene.appendChild(frag);
         scene.insertAdjacentHTML('beforeEnd', templateRoundLayout(round));
-        scene.flushToDOM(true);
-
-        // temporary test
-        /*
-        setTimeout(() => {
-            document.dispatchEvent(new CustomEvent("StopVote"));
-        }, 5000)
-        */
     },
 
     onStopVote(evt) {
@@ -118,7 +125,6 @@ export default {
         if (this.state.currentState !== this.STATUS.VOTE_COUNTDOWN && !scene.querySelector('#countdown')) {
             this.state.currentState = this.STATUS.VOTE_COUNTDOWN;
             scene.insertAdjacentHTML('beforeEnd', templateVoteCountdown(data));
-            scene.flushToDOM(true);
         } else if((this.STATUS.VOTE_COUNTDOWN + ' '+ this.STATUS.VOTING).includes(this.state.currentState)) {
             const n = scene.querySelector('#countdown');
             if (!n) return;
@@ -131,7 +137,6 @@ export default {
         const scene = document.querySelector('a-scene');
         this.cleanScene(scene, 'voting');
         this.renderTemplate(scene, templateVoteConfirm(evt.detail));
-        scene.flushToDOM(true);
     },
 
     onShowAlreadyVoted(evt) {
@@ -142,13 +147,11 @@ export default {
             this.cleanEntityTemplate(scene, 'voted');
             this.cleanScene(scene, 'voting');
             this.renderTemplate(scene, templateAlreadyVoted());
-            scene.flushToDOM(true);
         }
     },
 
     onShowRoundCountdown(evt) {
         const { data } = evt.detail;
-        console.log('sceneService.onShowRoundCountdown', data);
     },
 
     ////// PRIVATE
@@ -166,7 +169,6 @@ export default {
             this.cleanEntityTemplate(scene, 'voting');
             this.cleanScene(scene, 'voted');
             this.renderTemplate(scene, tmpl);
-            scene.flushToDOM(true);
         }
     },
 

@@ -23,10 +23,12 @@ function startup() {
                 authService.auth()
                     .then(socketService.connect.bind(socketService))
                     .then(() => {
+                        /* avoid force screen orientation
                         if (screen.orientation.lock) {
                             screen.orientation.lock('landscape')
                                 .catch(err => console.log(err));
                         }
+                        */
                         return Promise.all([
                             import('./service/RegisterComponentService.js').then(v => v.default),
                             import('./service/PageService.js').then(v => v.default)
@@ -34,19 +36,9 @@ function startup() {
                     })
                     .then(([registerComponentService, pageService]) => {
                         setTimeout(() => {
-                            const tmpl = document.querySelector('#tmpl-scene');
-                            document.body.appendChild(document.importNode(tmpl.content, true));
-                            
-                            const s = document.querySelector('a-scene');
-                            s.classList.remove("hidden");
                             registerComponentService.register();
                             pageService.start();
-
-                            const p = document.querySelector('.poster');
-                            p.parentNode.removeChild(p);
-                            
-                            document.dispatchEvent(new CustomEvent("ShowWaitRound"));
-                        }, 2000)
+                        }, 1000)
                     })
                     .catch((err) => {
                         reportService.report(err.message)

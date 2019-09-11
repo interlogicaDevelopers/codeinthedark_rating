@@ -1,6 +1,6 @@
 import CONST from '../const.js';
-import authService from './AuthService.js'
-import voteComponent from '../components/vote/Vote.js'
+import authService from './AuthService.js';
+import voteComponent from '../components/vote/Vote.js';
 
 export default {
 
@@ -46,7 +46,10 @@ export default {
         const id = evt.detail.id;
         const detail = this.getPlayer(id);
         if (detail) {
-            voteComponent.show(detail);
+            voteComponent.show({
+                ...detail, 
+                layout_url: this.state.currentRound.layout_url
+            });
         }
     },
 
@@ -96,8 +99,7 @@ export default {
     },
 
     onShowVoteConfirm(evt) {
-        const {data} = evt.detail;
-        this.state.votes[this.state.currentRound._id] = data._id;
+        this.state.votes[this.state.currentRound._id] = evt.detail.id;
     },
 
     getPlayer(id) {

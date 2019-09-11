@@ -9,6 +9,10 @@ export default {
         const template = document.createElement('template')
         template.innerHTML = html;
         return template.content.firstChild;
+    },
+
+    secureUrl(url) {
+        return url ? url.replace('http://', 'https://') : null;
     }
 
 }

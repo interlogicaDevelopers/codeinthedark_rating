@@ -17,7 +17,6 @@ export default {
                 this.el.addEventListener('click', function (evt) {
                     if (document.getElementById('voteContainer') ||
                         document.getElementById('voteConfirm')) return false;
-                    console.log('click on', evt.target.dataset.id);
                     this.longpress = (this.difftime > 0 && this.difftime <= 200) ? false : true;
                     if (!this.longpress) {
                         document.dispatchEvent(new CustomEvent(

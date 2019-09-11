@@ -26,7 +26,6 @@ export default {
                     if (profile) {
                         this.userProfile = profile;
                         resolve(profile);
-                        console.log("user profile", this.userProfile);
                     } else {
                         reject("Missing user profile");
                     }
@@ -39,7 +38,7 @@ export default {
     auth() {
         return new Promise((resolve, reject) => {
             if(CONST.test && CONST.test.enabled === true) {
-                this.profile = CONST.test.profile;
+                this.userProfile = {sub: CONST.test.profile};
                 resolve()
                 return;
             }
@@ -55,18 +54,13 @@ export default {
                     window.location.hash = '';
                     this.setSession(authResult);
                     this.setProfile()
-                    .then (() => {
-                        console.log("Autorization done", );
-                        resolve();
-                    })
+                    .then (() => {resolve();})
                     .catch(() => {
                         this.webAuth.authorize();
                     })
 
     
                 } else if (err) {
-                    console.log(err);
-                    console.log(err.errorDescription);
                     window.location.hash = '';
                     reject(err);
                 } else {

@@ -1,3 +1,5 @@
+import utils from '../../utils/Dom.js'
+
 export default {
 
     index: 0,
@@ -22,7 +24,7 @@ export default {
     
         const b = document.createElement('a-image');
         b.setAttribute('color', '#fff');
-        b.setAttribute('src', data.preview_url || '/assets/remote/placeholder.jpg');
+        b.setAttribute('src', utils.secureUrl(data.preview_url) || '/assets/remote/placeholder.jpg');
         b.setAttribute('material', 'color: #fff; transparent: false; vertexColors: face; wireframeLinewidth: -7.23');
         b.setAttribute('height', 1);
         b.setAttribute('width', 1.5);
@@ -40,5 +42,5 @@ export default {
         df.appendChild(c);
         return df;
     }
-
+ 
 }

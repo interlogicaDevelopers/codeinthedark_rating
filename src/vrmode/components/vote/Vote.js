@@ -9,7 +9,6 @@ export default {
         scene.insertAdjacentHTML('beforeEnd', template(data));
         this.initEvents();
         scene.querySelector('#directionalLight').setAttribute('visible', 'false');
-        scene.flushToDOM(true);
     },
 
     initEvents() {
@@ -30,15 +29,14 @@ export default {
             .then( () => {
                 this.current = null;
                 this.removeVoteContainer();
-                const evt = new CustomEvent("ShowVoteConfirm",{detail:{name}});
-		        document.dispatchEvent(evt);
+                const evtConfirm = new CustomEvent("ShowVoteConfirm",{detail:{name, id}});
+		        document.dispatchEvent(evtConfirm);
             })
             .catch ((resp) => {
                 try {
                     const {err, detail} = resp;
                     document.dispatchEvent(new CustomEvent(err, detail));
                 } catch (exc) {
-                    console.log("vote error", err);
                 }
             })
     },

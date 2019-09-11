@@ -1,9 +1,11 @@
 body {
     width: 100vw;
     height: 100vh;
-    display: flex;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
 }
 
 .poster {
@@ -58,22 +60,47 @@ app-notification .notification p {
     opacity: 0;
 }
 
-#toggleFullscreen {
+.action-bar {
+    width: 100vw;
     position: absolute;
-    bottom: 10px;
-    right: 10px;
     z-index: 1000;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    bottom: 10px;
+    height: 40px;
+    align-items: center;
 }
 
-#toggleFullscreen img {
+.action-bar a {
+    color: #fff;
+}
+
+.action-left {
+    margin-left: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.action-right {
+    margin-right: 10px;
+    display: flex;
+    align-items: center
+}
+
+.action-right > * {
+    margin-right: 10px;
+}
+
+.action-right > *:last-child {
+    margin-right: 0px;
+}
+
+.action-bar img {
     width: 20px;
     height: 20px;
 }
 
-#gotoPrevApp {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    z-index: 1000;
-    color: #fff;
+.action-bar img.img-bugs {
+    width: auto;
 }
