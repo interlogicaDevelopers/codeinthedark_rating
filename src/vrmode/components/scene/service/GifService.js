@@ -1,7 +1,8 @@
 export default {
 
     gifs: [
-        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif',
+        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif'
+        /*,
         'https://giphy.com/embed/l0ExgO5m0tcnfUKyY',
         'https://giphy.com/embed/nKN7E76a27Uek',
         'https://giphy.com/embed/uRcoPXfNZUMp2',
@@ -17,6 +18,7 @@ export default {
         'https://giphy.com/embed/3oxRmGNqKwCzJ0AwPC',
         'https://giphy.com/embed/EXHHMS9caoxAA',
         'https://giphy.com/embed/3oGRFvUEbJdLWlawLu'
+        */
     ],
 
     getRandomIndex() {

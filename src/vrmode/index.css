@@ -89,7 +89,7 @@ app-notification .notification p {
 }
 
 .action-right > * {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .action-right > *:last-child {

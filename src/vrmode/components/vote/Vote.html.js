@@ -39,8 +39,8 @@ export default (data) => {
                     <a-image
                         src="#btn-back"
                         class="clickable cancel"
-                        geometry="width: 2; height: 1"
-                        position="-4 0 0.1" 
+                        geometry="width: 1.08; height: 1"
+                        position="-5 0 0.1" 
                         ></a-image>
 
                     <a-image
@@ -48,7 +48,7 @@ export default (data) => {
                         class="clickable confirm"
                         data-id="${data._id}" 
                         data-name="${data.name}"
-                        geometry="width: 3.5; height: 1"
+                        geometry="width: 2.21; height: 1"
                         position="2 0 0.1" 
                         ></a-image>
                 </a-entity>
