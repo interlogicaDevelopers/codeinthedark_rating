@@ -111,7 +111,7 @@ export default {
         this.cleanEntityTemplate(scene, 'waiting');
         this.cleanEntityTemplate(scene, 'voted');
         scene.appendChild(frag);
-        scene.insertAdjacentHTML('beforeEnd', templateRoundLayout(round));
+        // scene.insertAdjacentHTML('beforeEnd', templateRoundLayout(round));
     },
 
     onStopVote(evt) {
