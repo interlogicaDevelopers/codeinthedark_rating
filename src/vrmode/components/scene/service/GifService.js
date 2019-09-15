@@ -1,6 +1,9 @@
 export default {
 
     gifs: [
+        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif',
+        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif',
+        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif',
         'https://media.giphy.com/media/WghwyziDDfR4s/source.gif'
         /*,
         'https://giphy.com/embed/l0ExgO5m0tcnfUKyY',
@@ -22,8 +25,7 @@ export default {
     ],
 
     getRandomIndex() {
-        return 0;
-        // return (Math.round(Math.random() * this.gifs.length - 1));
+        return (Math.round(Math.random() * this.gifs.length - 1));
     },
 
     initAssets() {
@@ -39,11 +41,9 @@ export default {
     },
 
     showAsset() {
-        // ${this.getRandomIndex()}
-        // <a-entity geometry="primitive: plane; height: 3.6; width: 4" position="0 -1.3 0.01" 
-        // material="shader: gif; src: url(https://media.giphy.com/media/WghwyziDDfR4s/source.gif)"></a-entity></a-entity>
-        return `<a-entity geometry="primitive: plane; height: 3.6; width: 4"
-                    position="0 -1.3 0.01" 
+        // TODO: set visible true only when texture loaded
+        return `<a-entity id="gifContainer" geometry="primitive: plane; height: 3.6; width: 4"
+                    position="0 -1.3 0.01" visible="true"
                     material="shader:gif; src:url(${this.gifs[this.getRandomIndex()]})"></a-entity>`
     }
 }

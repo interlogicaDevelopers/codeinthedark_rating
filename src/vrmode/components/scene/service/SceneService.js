@@ -2,12 +2,12 @@ import CONST from '../../../const.js';
 import broserCheckService from '../../../service/BrowserCheckService.js';
 import sceneComponent from '../Scene.js';
 import voteComponent from './../../../components/vote/Vote.js';
+import voteConfirmComponent from './../../../components/vote-confirm/VoteConfirm.js';
+import alreadyVoteComponent from './../../../components/already-voted/AlreadyVoted.js';
 import voteService from './../../../service/VoteService.js';
 
 import gifService from '../service/GifService.js';
-import templateVoteConfirm from '../template/VoteConfirm.html.js'
 import templateWaitingRound from '../template/WaitingRound.html.js'
-import templateAlreadyVoted from '../template/AlreadyVoted.html.js'
 import templateVoteCountdown from '../template/VoteCountdown.html.js'
 import templateRoundEnd from '../template/RoundEnd.html.js'
 import templateReceivingResults from '../template/ReceivingResults.html.js'
@@ -148,7 +148,7 @@ export default {
         this.state.currentState = this.STATUS.ALREADY_VOTED;
         const scene = document.querySelector('a-scene');
         this.cleanScene(scene, 'voting');
-        this.renderTemplate(scene, templateVoteConfirm(evt.detail));
+        voteConfirmComponent.show(evt.detail);
     },
 
     onShowAlreadyVoted(evt) {
@@ -158,7 +158,7 @@ export default {
             this.cleanEntityTemplate(scene, 'waiting');
             this.cleanEntityTemplate(scene, 'voted');
             this.cleanScene(scene, 'voting');
-            this.renderTemplate(scene, templateAlreadyVoted());
+            alreadyVoteComponent.show();
         }
     },
 
