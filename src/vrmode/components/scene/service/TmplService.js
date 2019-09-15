@@ -1,5 +1,7 @@
 export default {
-
+    text: {
+        fontUrl: "/assets/fonts/spacemono/SpaceMono-Bold.json"
+    },
     panelColor: "#212121",
     panelRotation: "0 0 0",
     panelPosition: "0 2.5 -2",

@@ -7,6 +7,19 @@ export default {
     show(data) {
         const scene = document.querySelector('a-scene');
         scene.insertAdjacentHTML('beforeEnd', template(data));
+        scene.querySelector("#layout-img-"+data._id).addEventListener('materialtextureloaded', 
+        function(evt) {
+            const id = evt.target.id;
+            scene.querySelector("#"+id).setAttribute('visible', true);
+            scene.querySelector("#layout-loading-"+id.replace('layout-img-', '')).remove();
+        });
+
+        scene.querySelector("#img-"+data._id).addEventListener('materialtextureloaded', 
+            function(evt) {
+                const id = evt.target.id;
+                scene.querySelector("#"+id).setAttribute('visible', true);
+                scene.querySelector("#loading-"+id.replace('img-', '')).remove();
+            });
         this.initEvents();
         scene.querySelector('#directionalLight').setAttribute('visible', 'false');
     },
@@ -54,6 +67,6 @@ export default {
         el.querySelector(".confirm").removeEventListener("click",this.listeners.save);
         el.querySelector(".cancel").removeEventListener("click", this.listeners.close);
         this.listeners = null;
-        el.parentElement.removeChild(el);
+        el.remove();
     }
 }

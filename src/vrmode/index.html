@@ -51,7 +51,7 @@
 
             </a-assets>
             <!-- camera="spectator: true;""  -->
-            <a-entity id="rig" position="0 4 3" rotation="0 0 0">
+            <a-entity id="rig" position="0 4 2.5" rotation="0 0 0">
                 <a-entity camera="active: true;" look-controls wasd-controls></a-entity>
             </a-entity>
             
@@ -66,12 +66,13 @@
 
     </template>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="libs/socket.io.js"></script>
     <script src="https://cdn.auth0.com/js/auth0/9.5.1/auth0.min.js"></script>
     <script src='libs/webvr-polyfill.js'></script>
     <script src="libs/aframe-master.min.js"></script>
     <script src="libs/aframe-touch-look-controls.js"></script>
     <script src="libs/aframe-gif-shader.js"></script>
+    <script src="libs/aframe-text-geometry-component.js"></script>
     <script src="index.mjs" type="module"></script>
 </body>
 

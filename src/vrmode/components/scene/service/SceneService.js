@@ -105,13 +105,23 @@ export default {
         players.forEach((el, idx) => {
             el.index = idx;
             frag.appendChild(sceneComponent.createPlayer(el, idx, positions[idx]));
+            frag.querySelector('#preview-'+el._id)
+                .addEventListener('materialtextureloaded', 
+                    function(evt) {
+                        scene.querySelector("#"+evt.target.id).setAttribute('visible', true);
+                    });
         })
         const scene = document.querySelector('a-scene');
         scene.querySelector('#directionalLight').setAttribute('visible', 'true');
         this.cleanEntityTemplate(scene, 'waiting');
         this.cleanEntityTemplate(scene, 'voted');
         scene.appendChild(frag);
-        // scene.insertAdjacentHTML('beforeEnd', templateRoundLayout(round));
+        scene.insertAdjacentHTML('beforeEnd', templateRoundLayout(round));
+        scene.querySelector("#imgRoundLayout")
+            .addEventListener('materialtextureloaded', 
+                function(evt) {
+                    scene.querySelector("#roundLayout").setAttribute('visible', true);
+                });
     },
 
     onStopVote(evt) {

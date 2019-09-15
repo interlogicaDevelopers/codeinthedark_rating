@@ -11,8 +11,10 @@ export default (data) => {
                   geometry="${tmplService.panelGeometry}" >
             <a-text width="${tmplService.panelTextWidth}" height="${tmplService.panelTextHeight}" 
                   value="Aspetta\nil momento di votare" 
-                  text="${tmplService.panelTextStyle}" 
-                  position="0 .5 0.1" 
+                  text="${tmplService.panelTextStyle}"
+                  shader= "msdf"
+                  font="${tmplService.text.fontUrl}"
+                  position="0 0 0.1" 
                   scale="${tmplService.panelTextScale}"></a-text>
       </a-entity>`
 }

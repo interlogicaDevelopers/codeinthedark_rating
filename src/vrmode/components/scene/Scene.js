@@ -1,4 +1,5 @@
 import utils from '../../utils/Dom.js'
+import tmplService from '../../components/scene/service/TmplService.js'
 
 export default {
 
@@ -21,10 +22,11 @@ export default {
         f.setAttribute("data-id", data._id);
         c.appendChild(f);
 
-    
         const b = document.createElement('a-image');
+        b.setAttribute('id', 'preview-'+data._id);
         b.setAttribute('color', '#fff');
-        b.setAttribute('src', utils.secureUrl(data.preview_url) || '/assets/remote/placeholder.jpg');
+        b.setAttribute('visible', 'false');
+        b.setAttribute('src', utils.secureUrl(data.preview_url) || '');
         b.setAttribute('material', 'color: #fff; transparent: false; vertexColors: face; wireframeLinewidth: -7.23');
         b.setAttribute('height', 1);
         b.setAttribute('width', 1.5);
@@ -34,8 +36,10 @@ export default {
         c.appendChild(b);
 
         const t = document.createElement('a-text');
-        t.setAttribute("position", [0, 0, .6].join(' '));
+        t.setAttribute("position", [0, -.5, .6].join(' '));
         t.setAttribute('value', data.name);
+        t.setAttribute("shader", "msdf")
+        t.setAttribute('font', tmplService.text.fontUrl);
         t.setAttribute('text', 'width: 10; align: center');
         c.appendChild(t);
 

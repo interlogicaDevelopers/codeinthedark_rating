@@ -10,9 +10,11 @@ export default () => {
                   material="${tmplService.panelMaterial}" 
                   geometry="${tmplService.panelGeometry}" >
             <a-text width="${tmplService.panelTextWidth}" height="${tmplService.panelTextHeight}" 
-                  value="In attesa\ndei risultati" 
+                  value="In attesa\ndei risultati"
+                  shader= "msdf"
+                  font="${tmplService.text.fontUrl}"
                   text="${tmplService.panelTextStyle}" 
-                  position="0 .5 0.1" 
+                  position="0 0 0.1" 
                   scale="${tmplService.panelTextScale}"></a-text>
       </a-entity>`
 }
