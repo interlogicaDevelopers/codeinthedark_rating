@@ -5,7 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js"
+    "start-dev": "node src/server.js",
+    "start": "node dist/server.js",
+    "build": "rollup -c"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +15,12 @@
     "express": "^4.17.1",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.0.0"
+  },
+  "devDependencies": {
+    "@beyonk/rollup-plugin-html-esm": "^1.0.3",
+    "@gen/rollup-plugin-generate-html": "^0.1.1",
+    "rollup": "^1.21.3",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "rollup-plugin-copy": "^3.1.0"
   }
 }
