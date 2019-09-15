@@ -59,12 +59,18 @@ ngApp.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, ROOT_NG, 'index.html'))
 });
 
-const sk = path.resolve(__dirname, '..', 'certs', 'server.key')
-if (USE_HTTPS && fs.existsSync(sk)) {
-    const https = require('https');
+const sk = path.resolve(__dirname, '..', 'certs', 'server.key');
+const sc = path.resolve(__dirname, '..', 'certs', 'server.cert');
 
-    ;
-    const sc = path.resolve(__dirname, '..', 'certs', 'server.cert');
+let certsExists = false;
+try {
+    if (fs.existsSync(sk) && fs.existsSync(sc)) certsExists = true;
+} catch (exc) {
+    console.info('Local certs missing');
+}
+
+if (USE_HTTPS && certsExists) {
+    const https = require('https');
 
     https.createServer({
         key: fs.readFileSync(sk),

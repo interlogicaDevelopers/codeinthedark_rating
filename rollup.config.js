@@ -16,7 +16,7 @@ export default {
     plugins: [
         cleaner({
             targets: [
-              'dist/vrmode/'
+              'dist/'
             ]
         }),
         copy({
@@ -25,6 +25,8 @@ export default {
               { src: 'src/vrmode/libs/**/*', dest: 'dist/vrmode/libs' },
               { src: 'src/vrmode/index.css', dest: 'dist/vrmode' },
               { src: 'src/vrmode/manifest.json', dest: 'dist/vrmode' },
+              { src: 'src/v1/**/*', dest: 'dist/v1' },
+              { src: 'src/server.js', dest: 'dist' },
             ]
         }),
         html({
