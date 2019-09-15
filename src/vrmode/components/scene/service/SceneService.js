@@ -1,6 +1,8 @@
 import CONST from '../../../const.js';
 import broserCheckService from '../../../service/BrowserCheckService.js';
 import sceneComponent from '../Scene.js';
+import voteComponent from './../../../components/vote/Vote.js';
+import voteService from './../../../service/VoteService.js';
 
 import gifService from '../service/GifService.js';
 import templateVoteConfirm from '../template/VoteConfirm.html.js'
@@ -49,7 +51,7 @@ export default {
             }
     
             document.querySelector('a-scene').addEventListener('loaded', () => {
-                       
+                document.addEventListener("ShowVotePreview", this.showVotePreview.bind(this));
                 document.addEventListener("StartVote", this.onStartVote.bind(this));
                 document.addEventListener("StopVote", this.onStopVote.bind(this));
                 document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
@@ -157,6 +159,17 @@ export default {
             this.cleanEntityTemplate(scene, 'voted');
             this.cleanScene(scene, 'voting');
             this.renderTemplate(scene, templateAlreadyVoted());
+        }
+    },
+
+    showVotePreview(evt) {
+        const id = evt.detail.id;
+        const detail = voteService.getPlayer(id);
+        if (detail) {
+            voteComponent.show({
+                ...detail, 
+                layout_url: voteService.state.currentRound.layout_url
+            });
         }
     },
 

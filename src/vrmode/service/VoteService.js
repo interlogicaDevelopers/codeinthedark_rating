@@ -1,6 +1,5 @@
 import CONST from '../const.js';
 import authService from './AuthService.js';
-import voteComponent from '../components/vote/Vote.js';
 
 export default {
 
@@ -12,7 +11,6 @@ export default {
     },
 
     start() {
-        document.addEventListener("ShowVotePreview", this.showVotePreview.bind(this));
         document.addEventListener("SocketMessage", this.onSocketMessage.bind(this));
         document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
     },
@@ -40,17 +38,6 @@ export default {
                     }
                 });
         })
-    },
-
-    showVotePreview(evt) {
-        const id = evt.detail.id;
-        const detail = this.getPlayer(id);
-        if (detail) {
-            voteComponent.show({
-                ...detail, 
-                layout_url: this.state.currentRound.layout_url
-            });
-        }
     },
 
     onSocketMessage(evt) {

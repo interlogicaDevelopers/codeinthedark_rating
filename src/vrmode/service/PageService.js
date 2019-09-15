@@ -60,13 +60,15 @@ export default {
 
     touchControls() {
         //TODO return in VR mode doesn't work, temp hack: reload page
-        const c = document.querySelector('a-entity[camera]');
+        const cam = document.querySelector('a-entity[camera]');
+        const tce = cam.getAttribute('touch-look-controls').enabled;
         const t = document.getElementById('touchControls').querySelector('span');
-        if (c.hasAttribute('touch-look-controls')) {
-            location.reload();
+        if (tce) {
+            cam.setAttribute('touch-look-controls', 'enabled', false);
+            t.textContent = 'TOUCH';
         } else {
             t.textContent = 'VR';
-            c.toggleAttribute('touch-look-controls');
+            cam.setAttribute('touch-look-controls', 'enabled', true);
         }
         
     }
