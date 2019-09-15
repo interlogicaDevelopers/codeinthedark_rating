@@ -59,11 +59,11 @@ ngApp.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, ROOT_NG, 'index.html'))
 });
 
-
-if (USE_HTTPS) {
+const sk = path.resolve(__dirname, '..', 'certs', 'server.key')
+if (USE_HTTPS && fs.existsSync(sk)) {
     const https = require('https');
 
-    const sk = path.resolve(__dirname, '..', 'certs', 'server.key');
+    ;
     const sc = path.resolve(__dirname, '..', 'certs', 'server.cert');
 
     https.createServer({
