@@ -27,7 +27,7 @@ export default {
         b.setAttribute('color', '#fff');
         b.setAttribute('visible', 'false');
         b.setAttribute('src', utils.secureUrl(data.preview_url) || '');
-        b.setAttribute('material', 'color: #fff; transparent: false; vertexColors: face; wireframeLinewidth: -7.23');
+        b.setAttribute('material', 'color: #fff; transparent: false; vertexColors: face; wireframeLinewidth: -7.23, side: front');
         b.setAttribute('height', 1);
         b.setAttribute('width', 1.5);
         b.setAttribute("position", [0, .6, .25].join(' '));
