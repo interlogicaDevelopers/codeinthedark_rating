@@ -65,9 +65,9 @@ export default {
         const t = document.getElementById('touchControls').querySelector('span');
         if (tce) {
             cam.setAttribute('touch-look-controls', 'enabled', false);
-            t.textContent = 'TOUCH';
+            t.textContent = 'TOUCH MODE';
         } else {
-            t.textContent = 'VR';
+            t.textContent = 'VR MODE';
             cam.setAttribute('touch-look-controls', 'enabled', true);
         }
         
