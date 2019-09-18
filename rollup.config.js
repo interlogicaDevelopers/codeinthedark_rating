@@ -1,5 +1,6 @@
 import html from '@beyonk/rollup-plugin-html-esm'
 import cleaner from 'rollup-plugin-cleaner';
+import {terser} from "rollup-plugin-terser";
 import copy from 'rollup-plugin-copy'
 
 export default {
@@ -29,6 +30,9 @@ export default {
               { src: 'src/server.js', dest: 'dist' },
             ]
         }),
+        /*terser({
+          mangle : false
+        }),*/
         html({
           // specify template html (optional)
           template: 'src/vrmode/index.tmpl.html',  // Default undefined

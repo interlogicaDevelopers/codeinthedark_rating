@@ -23,12 +23,6 @@ function startup() {
                 authService.auth()
                     .then(socketService.connect.bind(socketService))
                     .then(() => {
-                        /* avoid force screen orientation
-                        if (screen.orientation.lock) {
-                            screen.orientation.lock('landscape')
-                                .catch(err => console.log(err));
-                        }
-                        */
                         return Promise.all([
                             import('./service/RegisterComponentService.js').then(v => v.default),
                             import('./service/PageService.js').then(v => v.default)
@@ -56,7 +50,8 @@ function startup() {
     } else {
         reportService.report('unsupported browser')
         .then(() => {
-            location.href = CONST.app_old;
+            console.log('2');
+            // location.href = CONST.app_old;
         });
     }
 }

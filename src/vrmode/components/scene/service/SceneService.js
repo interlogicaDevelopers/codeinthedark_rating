@@ -5,8 +5,8 @@ import voteComponent from './../../../components/vote/Vote.js';
 import voteConfirmComponent from './../../../components/vote-confirm/VoteConfirm.js';
 import alreadyVoteComponent from './../../../components/already-voted/AlreadyVoted.js';
 import voteService from './../../../service/VoteService.js';
+import reportService from './../../../service/ReportService.js';
 
-import gifService from '../service/GifService.js';
 import templateWaitingRound from '../template/WaitingRound.html.js'
 import templateVoteCountdown from '../template/VoteCountdown.html.js'
 import templateRoundEnd from '../template/RoundEnd.html.js'
@@ -32,22 +32,16 @@ export default {
 
     start() {
         return new Promise((resolve, reject) => {
-
             const tmpl = document.querySelector('#tmpl-scene');
-
+    
             document.body.appendChild(document.importNode(tmpl.content, true));
             const s = document.querySelector('a-scene');
             s.classList.remove("hidden");
-
+    
             const p = document.querySelector('.poster');
             p.parentNode.removeChild(p);
-    
             if(AFRAME.utils.device.isMobile()) {
-                const or = broserCheckService.getOrientation();
-                if (or === broserCheckService.ORIENTATION.PORTRAIT) {
-                    const cameraEl = document.querySelector('#rig');
-                    cameraEl.setAttribute('rotation', '0 180 0');
-                }
+                this.setCameraOrientation(180);
             }
     
             document.querySelector('a-scene').addEventListener('loaded', () => {
@@ -57,11 +51,17 @@ export default {
                 document.addEventListener("ShowVoteConfirm", this.onShowVoteConfirm.bind(this))
                 document.addEventListener("ShowAlreadyVoted", this.onShowAlreadyVoted.bind(this))
                 document.addEventListener("SocketMessage", this.onSocketMessage.bind(this));
-                gifService.initAssets();
-                resolve();
+                resolve();               
             })
         })
+    },
 
+    setCameraOrientation(v) {
+        const or = broserCheckService.getOrientation();
+        if (or === broserCheckService.ORIENTATION.PORTRAIT) {
+            const cameraEl = document.querySelector('#rig');
+            cameraEl.setAttribute('rotation', '0 '+v+' 0');
+        }
     },
 
     ////////////// SOCKET LISTENER

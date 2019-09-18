@@ -1,49 +1,34 @@
 export default {
 
     gifs: [
+        'https://media.giphy.com/media/l0ExgO5m0tcnfUKyY/giphy.gif',
+        'https://media.giphy.com/media/nKN7E76a27Uek/source.gif',
+        'https://media.giphy.com/media/ihynxz6JxlmN2/source.gif',
         'https://media.giphy.com/media/WghwyziDDfR4s/source.gif',
-        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif',
-        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif',
-        'https://media.giphy.com/media/WghwyziDDfR4s/source.gif'
-        /*,
-        'https://giphy.com/embed/l0ExgO5m0tcnfUKyY',
-        'https://giphy.com/embed/nKN7E76a27Uek',
-        'https://giphy.com/embed/uRcoPXfNZUMp2',
-        'https://giphy.com/embed/Jalikml2XiUgw',
-        'https://giphy.com/embed/npUpB306c3EStRK6qP',
-        'https://giphy.com/embed/l0NwuvFERvrjszjd6',
-        'https://giphy.com/embed/nNH7LvI9NhaRq',
-        'https://giphy.com/embed/cS83sLRzgVOeY',
-        'https://giphy.com/embed/3owypf6HrM3J7UTvAA',
-        'https://giphy.com/embed/3o8doTsfXIV3ZTHA76',
-        'https://giphy.com/embed/Jk4ZT6R0OEUoM',
-        'https://giphy.com/embed/ZeB4HcMpsyDo4',
-        'https://giphy.com/embed/3oxRmGNqKwCzJ0AwPC',
-        'https://giphy.com/embed/EXHHMS9caoxAA',
-        'https://giphy.com/embed/3oGRFvUEbJdLWlawLu'
-        */
+        'https://media.giphy.com/media/Jalikml2XiUgw/giphy.gif',
+        'https://media.giphy.com/media/55iSbCOrU9L5UrfI3L/source.gif',
+        'https://media.giphy.com/media/l0NwuvFERvrjszjd6/source.gif',
+        'https://media.giphy.com/media/nNH7LvI9NhaRq/giphy.gif',
+        'https://media.giphy.com/media/3owypf6HrM3J7UTvAA/giphy.gif',
+        'https://media.giphy.com/media/3o8doTsfXIV3ZTHA76/source.gif',
+        'https://media.giphy.com/media/Jk4ZT6R0OEUoM/source.gif',
+        'https://media.giphy.com/media/ZeB4HcMpsyDo4/source.gif',
+        'https://media.giphy.com/media/3oxRmGNqKwCzJ0AwPC/source.gif',
+        'https://media.giphy.com/media/EXHHMS9caoxAA/giphy.gif',
+        'https://media.giphy.com/media/3oGRFvUEbJdLWlawLu/source.gif'
     ],
 
     getRandomIndex() {
-        return (Math.round(Math.random() * this.gifs.length - 1));
-    },
-
-    initAssets() {
-        const frag = document.createDocumentFragment();
-
-        for (let i=0, l = this.gifs.length; i<l; i++) {
-            const elm = document.createElement('a-asset-item');
-            elm.setAttribute('id', 'gift-'+i);
-            elm.setAttribute('src', this.gifs[i]);
-            frag.appendChild(elm);
-        }
-        document.querySelector('a-assets').appendChild(frag);
+        return (Math.trunc(Math.random() * this.gifs.length));
     },
 
     showAsset() {
+        // src:url(${this.gifs[this.getRandomIndex()]})
         // TODO: set visible true only when texture loaded
         return `<a-entity id="gifContainer" geometry="primitive: plane; height: 3.6; width: 4"
                     position="0 -1.3 0.01" visible="true"
-                    material="shader:gif; src:url(${this.gifs[this.getRandomIndex()]})"></a-entity>`
+                    material="shader:gif; src:url(${this.gifs[0]})"></a-entity>`
     }
 }
+
+// this.getRandomIndex()
