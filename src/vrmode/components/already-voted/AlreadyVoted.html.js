@@ -2,7 +2,7 @@ import gifService from '../scene/service/GifService.js';
 import tmplService from '../scene/service/TmplService.js'
 
 export default () => {
-      const gc = gifService.showAsset();
+      const gc = gifService.showAsset('fail');
       return `<a-entity id="alreadyVoted" 
             data-status='waiting' 
             component-padding="0.1"  

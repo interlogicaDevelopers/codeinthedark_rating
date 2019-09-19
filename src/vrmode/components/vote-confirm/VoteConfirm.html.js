@@ -3,7 +3,7 @@ import tmplService from '../scene/service/TmplService.js'
 
 
 export default (data) => {
-      const gc = gifService.showAsset();
+      const gc = gifService.showAsset('thankyou');
       return `<a-entity id="voteConfirm" 
             data-status='voted' 
             component-padding="0.1"  
